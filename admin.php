@@ -457,5 +457,90 @@ $conn->close();
             </div>
         </div>
 
+        <script>
+            // ── Verify Modal ────────────────────────────────────────────────
+            function openVerifyModal(order) {
+                document.getElementById('orderDetails').innerHTML = `
+                    <h4 class="font-bold text-gray-800 mb-2">Detail Pesanan</h4>
+                    <div class="grid grid-cols-2 gap-1 text-sm">
+                        <div class="text-gray-500">Order ID</div>   <div class="font-semibold">#${order.id}</div>
+                        <div class="text-gray-500">Customer</div>   <div class="font-semibold">${order.customer_name}</div>
+                        <div class="text-gray-500">Layanan</div>    <div>${order.service}</div>
+                        <div class="text-gray-500">Paket</div>      <div>${order.package}</div>
+                        <div class="text-gray-500">No. HP</div>     <div>${order.customer_phone}</div>
+                        <div class="text-gray-500">Status</div>     <div>${order.status}</div>
+                    </div>`;
+
+                document.getElementById('orderId').value       = order.id;
+                document.getElementById('gdriveLink').value    = order.gdrive_link   || '';
+                document.getElementById('paymentAmount').value = order.total_amount  || '';
+                document.getElementById('adminNotes').value    = order.admin_notes   || '';
+
+                document.getElementById('errorMessage').classList.add('hidden');
+                document.getElementById('successMessage').classList.add('hidden');
+                document.getElementById('waNotificationSection').classList.add('hidden');
+
+                document.getElementById('verifyModal').classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+
+            function closeVerifyModal() {
+                document.getElementById('verifyModal').classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+
+            async function handleVerifySubmit(event) {
+                event.preventDefault();
+
+                const orderId       = document.getElementById('orderId').value;
+                const gdriveLink    = document.getElementById('gdriveLink').value;
+                const paymentAmount = document.getElementById('paymentAmount').value;
+                const adminNotes    = document.getElementById('adminNotes').value;
+                const verifyBtn     = document.getElementById('verifyBtn');
+                const errorDiv      = document.getElementById('errorMessage');
+                const successDiv    = document.getElementById('successMessage');
+
+                errorDiv.classList.add('hidden');
+                successDiv.classList.add('hidden');
+                verifyBtn.disabled     = true;
+                verifyBtn.textContent  = 'Memproses...';
+
+                try {
+                    const response = await fetch('verify_payment.php', {
+                        method : 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body   : JSON.stringify({
+                            order_id       : orderId,
+                            gdrive_link    : gdriveLink,
+                            payment_amount : paymentAmount,
+                            admin_notes    : adminNotes
+                        })
+                    });
+                    const data = await response.json();
+
+                    if (data.success) {
+                        successDiv.textContent = '✅ ' + data.message;
+                        successDiv.classList.remove('hidden');
+
+                        if (data.wa_url) {
+                            document.getElementById('waNotificationBtn').href = data.wa_url;
+                            document.getElementById('waNotificationSection').classList.remove('hidden');
+                            setTimeout(() => location.reload(), 6000);
+                        } else {
+                            setTimeout(() => location.reload(), 2000);
+                        }
+                    } else {
+                        errorDiv.textContent = data.message || 'Terjadi kesalahan.';
+                        errorDiv.classList.remove('hidden');
+                    }
+                } catch (err) {
+                    errorDiv.textContent = 'Kesalahan koneksi. Coba lagi.';
+                    errorDiv.classList.remove('hidden');
+                } finally {
+                    verifyBtn.disabled    = false;
+                    verifyBtn.textContent = '✅ Verifikasi & Proses Pesanan';
+                }
+            }
+
     </body>
 </html>
