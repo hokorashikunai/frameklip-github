@@ -497,5 +497,231 @@ require_once 'config.php';
         </svg>
     </a>
 
+    <!-- Footer -->
+    <footer class="navy py-8 px-6">
+        <div class="container mx-auto text-center">
+            <img src="logo.png" alt="FrameKlip Logo" class="h-20 w-20 mx-auto mb-3 object-cover rounded-full" style="background: transparent; padding: 2px;">
+            <h3 class="text-2xl font-bold text-white mb-2">Frame<span class="text-orange">Klip</span></h3>
+            <p class="text-gray-300">&copy; 2024 FrameKlip. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Guide Modal -->
+    <div id="guideModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-navy">📋 Cara Pemesanan</h3>
+                <button onclick="closeGuideModal()" class="text-gray-500 hover:text-gray-700 text-3xl">&times;</button>
+            </div>
+            
+            <div class="space-y-4 mb-6">
+                <div class="flex items-start space-x-3 p-4 bg-orange-50 rounded-lg">
+                    <div class="flex-shrink-0 w-10 h-10 text-white rounded-full flex items-center justify-center font-bold text-lg" style="background-color: #f97316;">1</div>
+                    <div class="flex-1">
+                        <h4 class="font-bold text-navy mb-1">Pilih Layanan & Paket</h4>
+                        <p class="text-sm text-gray-700">Pilih jenis editing dan paket (Regular 3-4 hari atau Fast Track 1-2 hari)</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start space-x-3 p-4 bg-blue-50 rounded-lg">
+                    <div class="flex-shrink-0 w-10 h-10 text-white rounded-full flex items-center justify-center font-bold text-lg" style="background-color: #f97316;">2</div>
+                    <div class="flex-1">
+                        <h4 class="font-bold text-navy mb-1">Isi Form Pemesanan</h4>
+                        <p class="text-sm text-gray-700">Lengkapi data: Nama, Email, No. WhatsApp</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start space-x-3 p-4 bg-green-50 rounded-lg">
+                    <div class="flex-shrink-0 w-10 h-10 text-white rounded-full flex items-center justify-center font-bold text-lg" style="background-color: #f97316;">3</div>
+                    <div class="flex-1">
+                        <h4 class="font-bold text-navy mb-1">Transfer Pembayaran</h4>
+                        <p class="text-sm text-gray-700">Transfer sesuai nominal ke rekening yang ditampilkan</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start space-x-3 p-4 bg-purple-50 rounded-lg">
+                    <div class="flex-shrink-0 w-10 h-10 text-white rounded-full flex items-center justify-center font-bold text-lg" style="background-color: #f97316;">4</div>
+                    <div class="flex-1">
+                        <h4 class="font-bold text-navy mb-1">Kirim Bukti via WhatsApp</h4>
+                        <p class="text-sm text-gray-700">Kirim foto bukti transfer dan link Google Drive</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start space-x-3 p-4 bg-yellow-50 rounded-lg">
+                    <div class="flex-shrink-0 w-10 h-10 text-white rounded-full flex items-center justify-center font-bold text-lg" style="background-color: #f97316;">5</div>
+                    <div class="flex-1">
+                        <h4 class="font-bold text-navy mb-1">Tunggu Konfirmasi & Hasil</h4>
+                        <p class="text-sm text-gray-700">Video selesai dikirim via WhatsApp sesuai estimasi</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex gap-3">
+                <button onclick="closeGuideModal()" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-3 rounded-lg transition">
+                    ← Kembali
+                </button>
+                <button onclick="proceedToOrderForm()" class="flex-1 text-white font-bold py-3 rounded-lg transition hover:scale-105" style="background-color: #f97316;">
+                    Lanjut Pesan →
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Modal -->
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-navy">Form Pemesanan</h3>
+                <button onclick="closeOrderModal()" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <form id="orderForm" onsubmit="handleOrderSubmit(event)">
+                <div class="mb-4">
+                    <label class="block text-navy font-semibold mb-2">Layanan yang dipilih:</label>
+                    <p id="selectedService" class="text-gray-700 font-medium"></p>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-navy font-semibold mb-2">Paket:</label>
+                    <p id="selectedPackage" class="text-gray-700 font-medium"></p>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-navy font-semibold mb-2">Nama Lengkap *</label>
+                    <input type="text" id="customerName" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-orange">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-navy font-semibold mb-2">Email *</label>
+                    <input type="email" id="customerEmail" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-orange">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-navy font-semibold mb-2">No. Telepon (WhatsApp) *</label>
+                    <input type="tel" id="customerPhone" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-orange" placeholder="contoh: 08123456789">
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-navy font-semibold mb-2">Catatan (Optional)</label>
+                    <textarea id="customerNotes" rows="4" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-orange" placeholder="Deskripsikan kebutuhan video Anda..."></textarea>
+                </div>
+                
+                <div id="errorMessage" class="hidden mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded"></div>
+                
+                <button type="submit" id="submitBtn" class="btn-orange w-full py-3 rounded-lg font-semibold text-lg">
+                    Lanjut ke Pembayaran
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="modal">
+        <div class="modal-content">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-navy">Informasi Pembayaran</h3>
+                <button onclick="closePaymentModal()" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <!-- Order ID -->
+            <div class="bg-green-50 border-2 border-green-200 rounded-lg p-4 mb-6">
+                <p class="text-center text-green-700">
+                    ✅ <strong>Pesanan berhasil disimpan!</strong><br>
+                    <span class="font-bold text-lg">Order ID: #<span id="orderId"></span></span>
+                </p>
+            </div>
+            
+            <!-- Ringkasan Pembelian -->
+            <div class="bg-gray-50 rounded-lg p-6 mb-6">
+                <h4 class="text-lg font-bold text-navy mb-4">Ringkasan Pemesanan</h4>
+                <div class="space-y-2">
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Layanan:</span>
+                        <span id="summaryService" class="font-semibold text-navy"></span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Paket:</span>
+                        <span id="summaryPackage" class="font-semibold text-navy"></span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Estimasi Selesai:</span>
+                        <span id="summaryEstimate" class="font-semibold text-blue-600"></span>
+                    </div>
+                    <div class="flex justify-between border-t-2 border-gray-200 pt-3 mt-3">
+                        <span class="text-gray-600 font-bold text-lg">Total Bayar:</span>
+                        <span id="summaryPrice" class="font-bold text-orange text-2xl"></span>
+                    </div>
+                    <div class="flex justify-between mt-4 pt-4 border-t border-gray-200">
+                        <span class="text-gray-600">Nama:</span>
+                        <span id="summaryName" class="font-semibold text-navy"></span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">Email:</span>
+                        <span id="summaryEmail" class="font-semibold text-navy"></span>
+                    </div>
+                    <div class="flex justify-between">
+                        <span class="text-gray-600">No. HP:</span>
+                        <span id="summaryPhone" class="font-semibold text-navy"></span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Informasi Rekening -->
+            <div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-6 mb-6">
+                <h4 class="text-lg font-bold text-navy mb-4">Transfer ke Rekening:</h4>
+                <div class="flex items-center space-x-4 mb-4">
+                    <div class="bg-white px-4 py-2 rounded">
+                        <div class="text-blue-600 font-bold text-xl"><?php echo BANK_NAME; ?></div>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-600">Nomor Rekening</p>
+                        <p class="text-2xl font-bold text-navy"><?php echo BANK_ACCOUNT; ?></p>
+                        <p class="text-sm text-gray-600">a.n. <?php echo BANK_HOLDER; ?></p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Instruksi -->
+            <div class="bg-orange-50 border-2 border-orange-200 rounded-lg p-6 mb-6">
+                <h4 class="text-lg font-bold text-navy mb-3">Langkah Selanjutnya:</h4>
+                <ol class="list-decimal list-inside space-y-2 text-gray-700">
+                    <li>Transfer sesuai nominal yang telah disepakati</li>
+                    <li>Kirim bukti transfer ke WhatsApp kami</li>
+                    <li>Upload file video Anda ke Google Drive</li>
+                    <li>Kirim link Google Drive ke WhatsApp kami</li>
+                    <li>Tim kami akan segera memproses pesanan Anda!</li>
+                </ol>
+            </div>
+            
+            <!-- Auto-Redirect Info -->
+            <div class="bg-green-50 border-2 border-green-200 rounded-lg p-4 mb-6 text-center">
+                <p class="text-green-700 font-semibold mb-2">
+                    🚀 Akan otomatis membuka WhatsApp dalam <span id="countdown" class="text-2xl font-bold">5</span> detik...
+                </p>
+                <p class="text-sm text-gray-600">Atau klik tombol di bawah untuk langsung kirim sekarang</p>
+            </div>
+            
+            <!-- Tombol WhatsApp -->
+            <a id="whatsappBtn" href="#" target="_blank" class="btn-navy w-full py-4 rounded-lg font-semibold text-lg flex items-center justify-center space-x-2 mb-3">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                </svg>
+                <span>📱 Kirim Bukti & Link GDrive Sekarang</span>
+            </a>
+            
+            <button onclick="cancelAutoRedirect()" class="w-full text-gray-600 hover:text-gray-800 py-2 text-sm underline">
+                Batal otomatis redirect
+            </button>
+        </div>
+    </div>
+
 </body>
 </html>
