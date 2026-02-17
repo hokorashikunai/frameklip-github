@@ -346,5 +346,98 @@ require_once 'config.php';
             </div>
         </div>
     </section>
+    
+        <!-- About Us Section -->
+    <section id="about" class="py-24 px-6 relative overflow-hidden" style="background: linear-gradient(135deg, #0a0e27 0%, #1e3a8a 50%, #3b82f6 100%);">
+        <!-- Animated Background Elements -->
+        <div class="absolute inset-0 opacity-10">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-orange rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-20 right-10 w-96 h-96 bg-blue-400 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+        </div>
+        
+        <div class="container mx-auto relative z-10">
+            <!-- Header -->
+            <div class="text-center mb-20">
+                <div class="inline-block mb-6">
+                    <span class="text-orange font-bold text-lg tracking-widest uppercase">About Us</span>
+                </div>
+                <h2 class="text-6xl md:text-7xl font-extrabold text-white mb-6 leading-tight">
+                    Welcome to <span class="bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent">FrameKlip</span>
+                </h2>
+                <div class="w-40 h-2 mx-auto mb-8 rounded-full" style="background: linear-gradient(90deg, #f97316 0%, #fb923c 100%);"></div>
+                <p class="text-2xl md:text-3xl text-white font-light max-w-4xl mx-auto leading-relaxed">
+                    Your Trusted Partner for Professional Video Editing
+                </p>
+            </div>
+            
+            <div class="max-w-7xl mx-auto">
+                <!-- Stats Section -->
+                <div class="grid md:grid-cols-3 gap-6 mb-16">
+                    <div class="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-2xl rounded-2xl p-8 border border-white/20 text-center transform hover:scale-105 transition-all duration-300">
+                        <div class="text-6xl font-bold text-orange mb-2">500+</div>
+                        <p class="text-white text-lg font-semibold">Videos Delivered</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-2xl rounded-2xl p-8 border border-white/20 text-center transform hover:scale-105 transition-all duration-300">
+                        <div class="text-6xl font-bold text-orange mb-2">200+</div>
+                        <p class="text-white text-lg font-semibold">Happy Clients</p>
+                    </div>
+                    <div class="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-2xl rounded-2xl p-8 border border-white/20 text-center transform hover:scale-105 transition-all duration-300">
+                        <div class="text-6xl font-bold text-orange mb-2">98%</div>
+                        <p class="text-white text-lg font-semibold">Satisfaction Rate</p>
+                    </div>
+                </div>
+                
+                <!-- Main Description -->
+                <div class="bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-2xl rounded-3xl p-12 md:p-16 mb-16 border border-white/30 shadow-2xl">
+                    <p class="text-white text-xl md:text-2xl leading-relaxed text-center mb-8 font-light">
+                        FrameKlip hadir untuk membantu para content creator menghasilkan video berkualitas tinggi dengan cepat dan terjangkau. Dengan tim editor berpengalaman dan passionate, kami siap mewujudkan visi kreatif Anda menjadi karya visual yang memukau.
+                    </p>
+                    <p class="text-white text-xl md:text-2xl leading-relaxed text-center font-light">
+                        Dari video pendek untuk media sosial hingga dokumenter berkualitas cinema, kami menangani setiap proyek dengan detail dan dedikasi penuh.
+                    </p>
+                </div>
+                
+                <!-- Features Grid -->
+                <div class="grid md:grid-cols-3 gap-8 mb-12">
+                    <div class="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-2xl rounded-3xl p-10 border border-white/20 hover:border-orange/50 hover:shadow-2xl hover:shadow-orange/20 transition-all duration-500 text-center group">
+                        <div class="relative mb-8">
+                            <div class="w-32 h-32 mx-auto rounded-full flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-500" style="background: linear-gradient(135deg, #f97316 0%, #fb923c 100%); box-shadow: 0 20px 60px rgba(249, 115, 22, 0.4);">
+                                <span class="text-6xl">✨</span>
+                            </div>
+                        </div>
+                        <h4 class="font-bold text-white text-3xl mb-5">Premium Quality</h4>
+                        <p class="text-white/90 text-lg leading-relaxed">
+                            Editor profesional dengan pengalaman bertahun-tahun dan portfolio ratusan video berkualitas tinggi
+                        </p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-2xl rounded-3xl p-10 border border-white/20 hover:border-orange/50 hover:shadow-2xl hover:shadow-orange/20 transition-all duration-500 text-center group">
+                        <div class="relative mb-8">
+                            <div class="w-32 h-32 mx-auto rounded-full flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-500" style="background: linear-gradient(135deg, #f97316 0%, #fb923c 100%); box-shadow: 0 20px 60px rgba(249, 115, 22, 0.4);">
+                                <span class="text-6xl">🚀</span>
+                            </div>
+                        </div>
+                        <h4 class="font-bold text-white text-3xl mb-5">Lightning Fast</h4>
+                        <p class="text-white/90 text-lg leading-relaxed">
+                            Pilihan paket Regular (3-4 hari) atau Fast Track (1-2 hari) sesuai kebutuhan deadline Anda
+                        </p>
+                    </div>
+                    
+                    <div class="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-2xl rounded-3xl p-10 border border-white/20 hover:border-orange/50 hover:shadow-2xl hover:shadow-orange/20 transition-all duration-500 text-center group">
+                        <div class="relative mb-8">
+                            <div class="w-32 h-32 mx-auto rounded-full flex items-center justify-center transform group-hover:scale-110 group-hover:rotate-6 transition-all duration-500" style="background: linear-gradient(135deg, #f97316 0%, #fb923c 100%); box-shadow: 0 20px 60px rgba(249, 115, 22, 0.4);">
+                                <span class="text-6xl">💎</span>
+                            </div>
+                        </div>
+                        <h4 class="font-bold text-white text-3xl mb-5">Best Value</h4>
+                        <p class="text-white/90 text-lg leading-relaxed">
+                            Mulai dari Rp 15.000 per video dengan kualitas setara professional studio editing
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
 </body>
 </html>
