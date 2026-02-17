@@ -131,3 +131,34 @@ require_once 'config.php';
         }
     </style>
 </head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="navy fixed w-full z-50 shadow-lg">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <div class="flex items-center space-x-3">
+                        <img src="logo.png" alt="FrameKlip Logo" class="h-14 w-14 object-cover rounded-full" style="background: transparent; padding: 2px;">
+                        <h1 class="text-3xl font-bold text-white">Frame<span class="text-orange">Klip</span></h1>
+                    </div>
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-white font-semibold transition-all duration-300" onmouseover="this.style.color='#f97316'" onmouseout="this.style.color='white'">Home</a>
+                    <a href="#layanan" class="text-white font-semibold transition-all duration-300" onmouseover="this.style.color='#f97316'" onmouseout="this.style.color='white'">Services</a>
+                    <a href="#about" class="text-white font-semibold transition-all duration-300" onmouseover="this.style.color='#f97316'" onmouseout="this.style.color='white'">About</a>
+                    <a href="#contact" class="text-white font-semibold transition-all duration-300" onmouseover="this.style.color='#f97316'" onmouseout="this.style.color='white'">Contact</a>
+                </div>
+                <button id="mobileMenuBtn" class="md:hidden text-white">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+            <div id="mobileMenu" class="hidden md:hidden mt-4 space-y-2">
+                <a href="#home" class="block text-white hover:text-orange transition py-2">Home</a>
+                <a href="#layanan" class="block text-white hover:text-orange transition py-2">Services</a>
+                <a href="#about" class="block text-white hover:text-orange transition py-2">About</a>
+                <a href="#contact" class="block text-white hover:text-orange transition py-2">Contact</a>
+            </div>
+        </div>
+    </nav>
