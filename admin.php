@@ -2,7 +2,6 @@
 session_start();
 require_once 'config.php';
 
-// Simple authentication
 if (!isset($_SESSION['admin_logged_in'])) {
     if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['login'])) {
         $username = $_POST['username'];
@@ -157,3 +156,48 @@ $stats = $stats_result->fetch_assoc();
 
 $conn->close();
 ?>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - FrameKlip</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .badge { padding:4px 12px; border-radius:12px; font-size:12px; font-weight:600; }
+        .badge-pending     { background:#fef3c7; color:#92400e; }
+        .badge-processing  { background:#dbeafe; color:#1e40af; }
+        .badge-completed   { background:#d1fae5; color:#065f46; }
+        .badge-cancelled   { background:#fee2e2; color:#991b1b; }
+        .badge-verified    { background:#d1fae5; color:#065f46; }
+        .badge-unverified  { background:#fed7aa; color:#9a3412; }
+
+        .modal {
+            display:none; position:fixed; z-index:1000;
+            left:0; top:0; width:100%; height:100%;
+            overflow:auto; background-color:rgba(0,0,0,0.6);
+        }
+        .modal.active { display:flex; align-items:center; justify-content:center; }
+        .modal-content {
+            background:#fff; padding:30px; border-radius:15px;
+            max-width:600px; width:90%; max-height:90vh; overflow-y:auto;
+        }
+    </style>
+</head>
+    <body class="bg-gray-50">
+
+        <!-- Navbar -->
+        <nav class="bg-slate-900 text-white p-4 shadow-lg">
+            <div class="container mx-auto flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <img src="logo.png" alt="FrameKlip Logo" class="h-12 w-12 object-cover rounded-full">
+                    <div>
+                        <h1 class="text-xl font-bold">FrameKlip Admin</h1>
+                        <p class="text-xs text-gray-400">Login sebagai: <?php echo htmlspecialchars($_SESSION['admin_username']); ?></p>
+                    </div>
+                </div>
+                <a href="?logout=1" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded font-semibold transition">Logout</a>
+            </div>
+        </nav>
+    </body>
+</html>
