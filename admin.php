@@ -262,7 +262,7 @@ $conn->close();
                     <?php endforeach; ?>
                 </div>
             </div>
-            
+
             <!-- Orders Table -->
             <div class="bg-white rounded-lg shadow overflow-x-auto">
                 <table class="min-w-full">
@@ -401,6 +401,61 @@ $conn->close();
             </div>
 
         </div><!-- end container -->
+
+        <!-- Verify Payment Modal -->
+        <div id="verifyModal" class="modal">
+            <div class="modal-content">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-xl font-bold text-blue-900">Verifikasi Pembayaran</h3>
+                    <button onclick="closeVerifyModal()" class="text-gray-400 hover:text-gray-700 text-2xl leading-none">&times;</button>
+                </div>
+
+                <div id="orderDetails" class="bg-gray-50 rounded-lg p-4 mb-5 text-sm"></div>
+
+                <form id="verifyForm" onsubmit="handleVerifySubmit(event)">
+                    <input type="hidden" id="orderId" name="order_id">
+
+                    <div class="mb-4">
+                        <label class="block text-gray-700 font-semibold mb-1 text-sm">📁 Link Google Drive Video</label>
+                        <input type="url" id="gdriveLink" name="gdrive_link"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 text-sm"
+                            placeholder="https://drive.google.com/...">
+                        <p class="text-xs text-gray-400 mt-1">Customer akan kirim link via WhatsApp</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-gray-700 font-semibold mb-1 text-sm">💰 Nominal Pembayaran (Rp)</label>
+                        <input type="number" id="paymentAmount" name="payment_amount"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 text-sm"
+                            placeholder="150000" step="1000" min="0">
+                        <p class="text-xs text-gray-400 mt-1">Sesuai bukti transfer</p>
+                    </div>
+
+                    <div class="mb-5">
+                        <label class="block text-gray-700 font-semibold mb-1 text-sm">📝 Catatan Admin (Optional)</label>
+                        <textarea id="adminNotes" name="admin_notes" rows="3"
+                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 text-sm"
+                            placeholder="Catatan internal..."></textarea>
+                    </div>
+
+                    <div id="errorMessage"   class="hidden mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded text-sm"></div>
+                    <div id="successMessage" class="hidden mb-4 p-3 bg-green-100 border border-green-400 text-green-700 rounded text-sm"></div>
+
+                    <button type="submit" id="verifyBtn"
+                        class="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-semibold transition">
+                        ✅ Verifikasi & Proses Pesanan
+                    </button>
+
+                    <div id="waNotificationSection" class="hidden mt-4 border-t pt-4">
+                        <p class="text-sm text-gray-600 mb-2">📱 Kirim notifikasi ke customer:</p>
+                        <a id="waNotificationBtn" href="#" target="_blank"
+                            class="block w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg font-semibold text-center transition">
+                            💬 Kirim Notifikasi WhatsApp
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
 
     </body>
 </html>
