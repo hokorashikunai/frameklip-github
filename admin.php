@@ -542,5 +542,71 @@ $conn->close();
                 }
             }
 
+            // ── Complete Order ───────────────────────────────────────────────
+            async function markAsCompleted(orderId) {
+                if (!confirm('Tandai pesanan #' + orderId + ' sebagai SELESAI?')) return;
+
+                try {
+                    const response = await fetch('complete_order.php', {
+                        method : 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body   : JSON.stringify({ order_id: orderId })
+                    });
+                    const data = await response.json();
+
+                    if (data.success) {
+                        if (data.wa_url && confirm('Kirim notifikasi selesai ke customer via WhatsApp?')) {
+                            window.open(data.wa_url, '_blank');
+                        }
+                        alert('✅ ' + data.message);
+                        location.reload();
+                    } else {
+                        alert('❌ ' + (data.message || 'Gagal mengubah status'));
+                    }
+                } catch (err) {
+                    alert('❌ Kesalahan koneksi');
+                }
+            }
+
+            // ── Cancel Order ─────────────────────────────────────────────────
+            function cancelOrder(orderId) {
+                if (!confirm('Batalkan pesanan #' + orderId + '? Tindakan ini tidak bisa dibatalkan!')) return;
+
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = 'admin.php';
+                form.innerHTML = `
+                    <input type="hidden" name="update_status" value="1">
+                    <input type="hidden" name="order_id"      value="${orderId}">
+                    <input type="hidden" name="status"        value="cancelled">`;
+                document.body.appendChild(form);
+                form.submit();
+            }
+
+            // ── Copy GDrive Link ─────────────────────────────────────────────
+            function copyLink(link) {
+                navigator.clipboard.writeText(link).then(() => {
+                    alert('✅ Link berhasil di-copy!\n\n' + link);
+                }).catch(() => {
+                    // Fallback jika clipboard API tidak tersedia
+                    const el = document.createElement('textarea');
+                    el.value = link;
+                    document.body.appendChild(el);
+                    el.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(el);
+                    alert('✅ Link berhasil di-copy!');
+                });
+            }
+
+            // Close modal on outside click
+            window.onclick = function(e) {
+                if (e.target === document.getElementById('verifyModal')) closeVerifyModal();
+            };
+        </script>
+    </body>
+    </html>
+
+
     </body>
 </html>
