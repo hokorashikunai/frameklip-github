@@ -199,7 +199,7 @@ $conn->close();
                 <a href="?logout=1" class="bg-red-500 hover:bg-red-600 px-4 py-2 rounded font-semibold transition">Logout</a>
             </div>
         </nav>
-        
+
         <div class="container mx-auto px-4 py-8">
 
             <!-- Statistics -->
@@ -262,6 +262,145 @@ $conn->close();
                     <?php endforeach; ?>
                 </div>
             </div>
+            
+            <!-- Orders Table -->
+            <div class="bg-white rounded-lg shadow overflow-x-auto">
+                <table class="min-w-full">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">ID</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Customer</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Layanan</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Payment</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">📁 Link Video</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Status</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Tanggal</th>
+                            <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <?php if (empty($orders)): ?>
+                            <tr>
+                                <td colspan="7" class="px-6 py-8 text-center text-gray-400">
+                                    Tidak ada pesanan ditemukan
+                                </td>
+                            </tr>
+                        <?php else: ?>
+                            <?php foreach ($orders as $order): ?>
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="font-bold text-blue-600">#<?php echo $order['id']; ?></span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm font-semibold text-gray-900"><?php echo htmlspecialchars($order['customer_name']); ?></div>
+                                        <div class="text-xs text-gray-500"><?php echo htmlspecialchars($order['customer_email']); ?></div>
+                                        <div class="text-xs text-gray-500"><?php echo htmlspecialchars($order['customer_phone']); ?></div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="text-sm font-medium text-gray-900"><?php echo htmlspecialchars($order['service']); ?></div>
+                                        <div class="text-xs text-gray-500"><?php echo htmlspecialchars($order['package']); ?></div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <?php 
+                                        $is_verified = isset($order['payment_verified']) && $order['payment_verified'] == 1;
+                                        $amount = isset($order['total_amount']) ? $order['total_amount'] : 0;
+                                        ?>
+                                        <?php if ($is_verified): ?>
+                                            <span class="badge badge-verified">✅ Verified</span>
+                                            <?php if ($amount > 0): ?>
+                                                <div class="text-xs text-gray-600 mt-1">
+                                                    Rp <?php echo number_format($amount, 0, ',', '.'); ?>
+                                                </div>
+                                            <?php endif; ?>
+                                            <?php if (!empty($order['verified_by_name'])): ?>
+                                                <div class="text-xs text-gray-400 mt-1">oleh: <?php echo htmlspecialchars($order['verified_by_name']); ?></div>
+                                            <?php endif; ?>
+                                        <?php else: ?>
+                                            <span class="badge badge-unverified">⏳ Belum</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <!-- Kolom GDrive / Link Video -->
+                                    <td class="px-6 py-4" style="max-width:180px;">
+                                        <?php if (!empty($order['gdrive_link'])): ?>
+                                            <a href="<?php echo htmlspecialchars($order['gdrive_link']); ?>" 
+                                            target="_blank"
+                                            class="inline-block bg-indigo-500 hover:bg-indigo-600 text-white px-3 py-1 rounded text-xs font-semibold mb-1 transition">
+                                                📁 Buka Video
+                                            </a>
+                                            <button onclick="copyLink('<?php echo htmlspecialchars($order['gdrive_link']); ?>')"
+                                                class="inline-block bg-gray-200 hover:bg-gray-300 text-gray-700 px-3 py-1 rounded text-xs font-semibold transition">
+                                                📋 Copy Link
+                                            </button>
+                                            <div class="text-xs text-gray-400 mt-1 truncate" style="max-width:160px;" title="<?php echo htmlspecialchars($order['gdrive_link']); ?>">
+                                                <?php echo htmlspecialchars(substr($order['gdrive_link'], 0, 35)) . '...'; ?>
+                                            </div>
+                                        <?php else: ?>
+                                            <span class="text-xs text-gray-400 italic">Belum ada link</span>
+                                        <?php endif; ?>
+                                    </td>
+
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="badge badge-<?php echo htmlspecialchars($order['status']); ?>">
+                                            <?php
+                                            $status_labels = [
+                                                'pending'    => '🕐 Pending',
+                                                'processing' => '🔄 Processing',
+                                                'completed'  => '✅ Completed',
+                                                'cancelled'  => '❌ Cancelled',
+                                            ];
+                                            echo $status_labels[$order['status']] ?? ucfirst($order['status']);
+                                            ?>
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-500">
+                                        <?php echo date('d/m/Y', strtotime($order['created_at'])); ?>
+                                        <div><?php echo date('H:i', strtotime($order['created_at'])); ?></div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex flex-col gap-1">
+                                            <!-- Verify / Edit button -->
+                                            <button onclick="openVerifyModal(<?php echo htmlspecialchars(json_encode($order)); ?>)"
+                                                class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs font-semibold transition">
+                                                <?php echo (!empty($order['payment_verified']) && $order['payment_verified'] == 1) ? '📝 Edit' : '✅ Verify'; ?>
+                                            </button>
+
+                                            <!-- Complete button — muncul saat status = processing -->
+                                            <?php if ($order['status'] === 'processing'): ?>
+                                                <button onclick="markAsCompleted(<?php echo (int)$order['id']; ?>)"
+                                                    class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-xs font-semibold transition">
+                                                    🎬 Complete
+                                                </button>
+                                            <?php endif; ?>
+
+                                            <!-- Cancel button — muncul saat status = pending atau processing -->
+                                            <?php if (in_array($order['status'], ['pending', 'processing'])): ?>
+                                                <button onclick="cancelOrder(<?php echo (int)$order['id']; ?>)"
+                                                    class="bg-red-400 hover:bg-red-500 text-white px-3 py-1 rounded text-xs font-semibold transition">
+                                                    ❌ Cancel
+                                                </button>
+                                            <?php endif; ?>
+
+                                            <!-- GDrive sudah ada di kolom tersendiri -->
+
+                                            <!-- WhatsApp -->
+                                            <a href="https://wa.me/<?php
+                                                    $phone = preg_replace('/[^0-9]/', '', $order['customer_phone']);
+                                                    if (substr($phone, 0, 1) === '0') $phone = '62' . substr($phone, 1);
+                                                    echo $phone;
+                                                ?>" target="_blank"
+                                                class="bg-emerald-500 hover:bg-emerald-600 text-white px-3 py-1 rounded text-xs font-semibold text-center transition">
+                                                📱 WA
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php endif; ?>
+                    </tbody>
+                </table>
+            </div>
+
+        </div><!-- end container -->
 
     </body>
 </html>
